@@ -1,0 +1,32 @@
+# Maximum age
+5
+# Weight-age-age
+5.91	11	26.16	43.5	58.9	75.42
+# maturity-at-age
+0	0	0.5	1	1	1
+# Fecundity-at-age
+1 2 3 4 5 6 
+# Initial numbers-at-age (proportion)
+0.462	0.249	0.134	0.083	0.059	0.014
+# Initial Numbers at age (total); Initial depletion
+1731.393506     1
+# Selectivity - Base case
+0	0.004	0.071	1	1	1
+# natural mortality
+               0.62
+#   R0    Steepness  // Recruitment parameteres
+  800.000         0.59
+# Initial_Eps, ProwR, SigmaR, Rerr, Rtype // Recruitment uncertainty
+        0.000    0.0     0.6     1      0
+# Vinit Gtype UseG Verr // Options for environmental variable
+      0     2    1    1
+# Ybar Period ProwV SigmaV  Phi Mean_SST Amplitude// Parameters of the environmental time series (15.65 is the SST_CC mean)
+  1975     60 0.343  0.491 1.28    15.65     0.469
+# Chi (specific to type 1)
+    1
+# Power (specific to type 2)
+      2
+# SigmaI Ierr // Uncertainty of the env. variable measurement
+   0.374    1
+# Sigma_B Berr// Uncertainty of the assessement
+    0.360    0
