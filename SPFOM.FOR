@@ -425,7 +425,7 @@ C
 C     Local variables
       INTEGER Age,II
       REAL*8 FF,Fmin,Fmax,Cnum,Cpred
-      REAL*8 SSBV,Bio1P,RecR,SSBflat
+      REAL*8 SSBV,Bio1P,RecR,SSBflat,ExplB
       REAL*8 ANcount1, ANcount2, Ncheck
       REAL*8 ACcount1, ACcount2
       REAL*8 qind
@@ -441,8 +441,17 @@ C
 C     Do the "Assessment"
       Bhat = B1p(Isim,Iyr-1)*EpsB(Iyr-1)
 C     SENSITIVITIES
-C     Use SSB for the assessment
+C     Use SSB for the assessment (i.e. DEPM)
       IF (WhatAssmt.EQ.1.0) Bhat = SSB(Isim,Iyr-1)*EpsB(Iyr-1)
+C     Use exploitable biomass - Not an assessment, just for explorations
+      IF (WhatAssmt.EQ.2.0) THEN
+        ExplB = 0
+        DO 10100 Age = 0,Nage
+          ExplB = ExplB + N(Iyr-1,Age)*SelxSum(Iyr-1,Age)*
+     +            WeightSum(Iyr-1,Age)
+10100   CONTINUE
+        Bhat = ExplB
+      ENDIF
 C	  
 C     SENSITIVITIES 
 C     Hyperstability

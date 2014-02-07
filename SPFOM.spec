@@ -1,7 +1,7 @@
 # Number of simulation years
-10
+50
 # Number of simulations
-10
+1000
 # Emsy_min Emsy_max
     0.1    0.7
 # FractionMin FractiomMax
@@ -20,8 +20,8 @@
              1                        0.241
 # Seeds
 -39948 -35946 -97996 -99182
-# Sensitivity option: What quantity to use for the assessment (0=B1+; 1=SSB)
-1
+# Sensitivity option: What quantity to use for the assessment (0=B1+; 1=SSB; 2= Exploitable biomass)
+2
 # Sensitivity option: Time varying selectivities
 0
 # Sensitivity option: Time varying weight at age
