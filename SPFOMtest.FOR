@@ -104,7 +104,7 @@ C      READ(13,*) (Weight80s(Age),Age=0,Nage)
       READ(13,*)
       READ(13,*) (Selex(Age),Age=0,Nage)
       READ(13,*)
-      READ(13,*) (BasicSelex(Age),Age=0,Nage)
+      READ(13,*) (SimpleSelex(Age),Age=0,Nage)
 C      READ(13,*)
 C      READ(13,*) (SelxMC1(Age),Age=0,Nage)
 C      READ(13,*)
@@ -388,7 +388,7 @@ C     5. Different selectivities without time varying
       IF(DiffSelx.EQ.1) THEN
        DO 40001 Year = 0,Nyear
         DO 41001 Iage = 0,Nage
-         SelxSum(Year,Iage) = BasicSelex(Iage)
+         SelxSum(Year,Iage) = SimpleSelex(Iage)
 41001   CONTINUE
 40001  CONTINUE
       ENDIF

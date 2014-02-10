@@ -93,12 +93,12 @@ C      Verr                  - Use environment uncertainty?
 C
       COMMON / Sensitivities /  TVselx,TVweight,MultFleet,HyperSt,TVM,
      +       HPSa,Fmex,Fcan,WeightOut,SelxOut,UseAnn,DiffSelx,WhatAssmt,
-     +       SelxSum,WeightSum,BasicSelex,SelxMC1,SelxMC2,SelxMCy,
+     +       SelxSum,WeightSum,SimpleSelex,SelxMC1,SelxMC2,SelxMCy,
      +       SelxPNW,Weight80s,Weight90s, Myear
       REAL*8 TVselx,TVweight,MultFleet,HyperSt,TVM,HPSa,Fmex,Fcan
       REAL*8 WeightOut,SelxOut,UseAnn,DiffSelx,WhatAssmt
       REAL*8 SelxSum(0:MaxYr,0:MaxAge),WeightSum(0:MaxYr,0:MaxAge)
-      REAL*8 BasicSelex(0:MaxAge),SelxMC1(0:MaxAge),SelxMC2(0:MaxAge)
+      REAL*8 SimpleSelex(0:MaxAge),SelxMC1(0:MaxAge),SelxMC2(0:MaxAge)
       REAL*8 SelxMCy(0:MaxAge),Weight80s(0:MaxAge),Weight90s(0:MaxAge)
       REAL*8 Myear(0:MaxYr)
 	  
