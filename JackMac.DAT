@@ -12,6 +12,8 @@
 3494.236913     1
 # Selectivity - Base case
 0	0.002	0.839	1	1	1	1	1	1	1	1
+# Selectivity - Knuckey basic selectivity
+0.3	1	1	1	1	1	1	1	1	1	1
 # natural mortality
                0.26
 #   R0    Steepness  // Recruitment parameteres

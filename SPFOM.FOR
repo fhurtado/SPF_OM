@@ -103,6 +103,8 @@ C      READ(13,*) (Weight80s(Age),Age=0,Nage)
       READ(13,*) Ninit, DeplI
       READ(13,*)
       READ(13,*) (Selex(Age),Age=0,Nage)
+      READ(13,*)
+      READ(13,*) (BasicSelex(Age),Age=0,Nage)
 C      READ(13,*)
 C      READ(13,*) (SelxMC1(Age),Age=0,Nage)
 C      READ(13,*)
@@ -156,7 +158,9 @@ C     Read management specifications
       READ(13,*)
       READ(13,*) ISEED1, ISEED2, ISEED3, ISEED4
       READ(13,*) 
-      READ(13,*) WhatAssmt
+      READ(13,*) WhatAssmt	  
+      READ(13,*) 
+      READ(13,*) DiffSelx
       READ(13,*) 
       READ(13,*) TVselx
       READ(13,*) 
@@ -173,8 +177,6 @@ C     Read management specifications
       READ(13,*) SelxOut, WeightOut
       READ(13,*) 
       READ(13,*) UseAnn	  
-      READ(13,*) 
-      READ(13,*) DiffSelx	  
       CLOSE(13)
 C      
       RETURN
@@ -382,21 +384,35 @@ C     4. Time varying natural mortality
       ENDIF
 C
 C     SENSITIVITIES
-C     5. Different selectivities without time varying
+C     5. Different selectivities without time varying 
       IF(DiffSelx.EQ.1) THEN
        DO 40001 Year = 0,Nyear
         DO 41001 Iage = 0,Nage
-         SelxSum(Year,Iage) = SelxMC1(Iage)
+         SelxSum(Year,Iage) = BasicSelex(Iage)
 41001   CONTINUE
 40001  CONTINUE
       ENDIF
       IF(DiffSelx.EQ.2) THEN
        DO 40002 Year = 0,Nyear
         DO 41002 Iage = 0,Nage
-         SelxSum(Year,Iage) = SelxPNW(Iage)
+         SelxSum(Year,Iage) = Matu(Iage)
 41002   CONTINUE
 40002  CONTINUE
       ENDIF
+C      IF(DiffSelx.EQ.1) THEN
+C       DO 40001 Year = 0,Nyear
+C        DO 41001 Iage = 0,Nage
+C         SelxSum(Year,Iage) = SelxMC1(Iage)
+C41001   CONTINUE
+C40001  CONTINUE
+C      ENDIF
+C      IF(DiffSelx.EQ.2) THEN
+C       DO 40002 Year = 0,Nyear
+C        DO 41002 Iage = 0,Nage
+C         SelxSum(Year,Iage) = SelxPNW(Iage)
+C41002   CONTINUE
+C40002  CONTINUE
+C      ENDIF
 C
 C     For debugging only
 C      DO 50000 Year = 1,Nyear

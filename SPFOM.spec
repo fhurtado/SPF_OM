@@ -22,6 +22,8 @@
 -39948 -35946 -97996 -99182
 # Sensitivity option: What quantity to use for the assessment (0=B1+; 1=SSB; 2= Exploitable biomass)
 2
+# Sensitivity: What selectivity to use (0=base, 1=Knuckey, 2=Maturity)
+0
 # Sensitivity option: Time varying selectivities
 0
 # Sensitivity option: Time varying weight at age
@@ -37,6 +39,4 @@
 # Report selectivities or weights
 0 0 
 # Use annual SST instead of three year average
-0
-# Sensitivity: What selectivity to use (0=base, 1=Mex, 2=PNW)
 0
