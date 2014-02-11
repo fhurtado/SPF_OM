@@ -1,5 +1,8 @@
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!	  
+C     Australian SPF simulation code. 
 C     This program reads the summary.out file, orders the data, and calculates means, medians and quantiles
+C     Written by F. Hurtado-Ferro and A.E. Punt
+C     Please reference the authors if you use this code.
+C
       PROGRAM OutSort
       IMPLICIT NONE
 	  
@@ -208,15 +211,15 @@ C
      +              StdDev(SSB5,5*Nsim),
      +              StdDev(Catch5,5*Nsim)
       WRITE(14,600) "Q05",Biomass(Q05),SSB(Q05),Catches(Q05),
-     +              Bio5(Q505),SSB(Q505),Catch5(Q505)
+     +              Bio5(Q505),SSB5(Q505),Catch5(Q505)
       WRITE(14,600) "Q25",Biomass(Q25),SSB(Q25),Catches(Q25),
-     +              Bio5(Q525),SSB(Q525),Catch5(Q525)
+     +              Bio5(Q525),SSB5(Q525),Catch5(Q525)
       WRITE(14,600) "Median",Biomass(Med),SSB(Med),Catches(Med),
-     +              Bio5(Med5),SSB(Med5),Catch5(Med5)
+     +              Bio5(Med5),SSB5(Med5),Catch5(Med5)
       WRITE(14,600) "Q75",Biomass(Q75),SSB(Q75),Catches(Q75),
-     +              Bio5(Q575),SSB(Q575),Catch5(Q575)
+     +              Bio5(Q575),SSB5(Q575),Catch5(Q575)
       WRITE(14,600) "Q95",Biomass(Q95),SSB(Q95),Catches(Q95),
-     +              Bio5(Q595),SSB(Q595),Catch5(Q595)
+     +              Bio5(Q595),SSB5(Q595),Catch5(Q595)
 	  
 
 	 
