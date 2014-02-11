@@ -1,4 +1,4 @@
-Australia SPF operating model and management strategy evaluation
+Australian SPF operating model and management strategy evaluation
 ==========================================================================================
 
 This repository stores the most up-to-date code for the operating model used for the Australian SPF MSE. The model is available under MIT License. The model was developed by F. Hurtado-Ferro and A.E. Punt. Please reference the authors and this repository if you use this model.
