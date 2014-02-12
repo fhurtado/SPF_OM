@@ -416,4 +416,17 @@ if(plot.again==T){
   #Fmsy
   Fmsy <- data.frame(Stock=Stocks, Fmsy=Relcatch[,1,1][which(Relcatch[,,1]==1,arr.ind=T)[2:8,1]])
   print(Fmsy)
+  
+  ############################################################
+  # Depletions
+  
+  DepObj <- c(0.9,0.8,0.75,seq(0.7,0.4,by=-0.1))
+  EspDepls <- data.frame(Targ_Depl = DepObj)
+  for(spp in 1:7){
+    EspDepls <- cbind(EspDepls,
+                      round(approx(x=DepletionsSSB[,spp+1,1],y=DepletionsSSB[,1,1],xout=DepObj)$y,3))
+  }
+  names(EspDepls) <- c("Targ_Depl",Stocks)
+  print("Harvest rates to achieve depletion objectives")
+  print(EspDepls)
 }
