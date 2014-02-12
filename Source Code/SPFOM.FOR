@@ -158,9 +158,11 @@ C     Read management specifications
       READ(13,*)
       READ(13,*) ISEED1, ISEED2, ISEED3, ISEED4
       READ(13,*) 
-      READ(13,*) WhatAssmt	  
+      READ(13,*) WhatAssmt
       READ(13,*) 
       READ(13,*) DiffSelx
+      READ(13,*) 
+      READ(13,*) VarSurvFreq, DEPMfrq, SurvBias
       READ(13,*) 
       READ(13,*) TVselx
       READ(13,*) 
@@ -280,7 +282,7 @@ C
 C     Add measurement error to the 1+ biomass (i.e. an "assessment")
       EpsB(0) = 1
       DO 34000 Year = 1,NYear   
-       EpsB(Year) = XNORM(1,0.0d0,1.0d0,ISEED4)*SigmaB - 
+       EpsB(Year) = (XNORM(1,0.0d0,1.0d0,ISEED4)+SurvBias)*SigmaB- 
      +                  (SigmaB**2)/2.0
        EpsB(Year) = EXP(EpsB(Year)*Berr)
 34000 CONTINUE	   
@@ -437,6 +439,7 @@ C     Global variables
       REAL*8 HG
       REAL*8 HarvGuide	  
       REAL*8 Eff, ObsEff
+      REAL*8 Yrcount
 C
 C     Local variables
       INTEGER Age,II
@@ -446,7 +449,7 @@ C     Local variables
       REAL*8 ACcount1, ACcount2
       REAL*8 qind
       REAL*8 Z(0:MaxAge)
-      REAL*8 RickerA, RickerB
+      REAL*8 RickerA, RickerB, TBhat
       RickerA = -4.598
       RickerB = -3.457e-07
       IF(Rtype.EQ.4) THEN
@@ -455,10 +458,10 @@ C     Local variables
       ENDIF
 C
 C     Do the "Assessment"
-      Bhat = B1p(Isim,Iyr-1)*EpsB(Iyr-1)
+      TBhat = B1p(Isim,Iyr-1)*EpsB(Iyr-1)
 C     SENSITIVITIES
 C     Use SSB for the assessment (i.e. DEPM)
-      IF (WhatAssmt.EQ.1.0) Bhat = SSB(Isim,Iyr-1)*EpsB(Iyr-1)
+      IF (WhatAssmt.EQ.1.0) TBhat = SSB(Isim,Iyr-1)*EpsB(Iyr-1)
 C     Use exploitable biomass - Not an assessment, just for explorations
       IF (WhatAssmt.EQ.2.0) THEN
         ExplB = 0
@@ -466,7 +469,16 @@ C     Use exploitable biomass - Not an assessment, just for explorations
           ExplB = ExplB + N(Iyr-1,Age)*SelxSum(Iyr-1,Age)*
      +            WeightSum(Iyr-1,Age)
 10100   CONTINUE
-        Bhat = ExplB
+        TBhat = ExplB
+      ENDIF
+	  
+C     SENSITIVITIES
+C     Variable frequency for DEPM surveys
+      Yrcount = REAL(Iyr)
+      IF (VarSurvFreq.EQ.0) THEN
+        Bhat = TBhat
+      ELSE
+        IF(MOD((Yrcount-1.0),DEPMfrq).EQ.0.0) Bhat = TBhat
       ENDIF
 C	  
 C     SENSITIVITIES 

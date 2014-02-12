@@ -21,9 +21,11 @@
 # Seeds
 -39948 -35946 -97996 -99182
 # Sensitivity option: What quantity to use for the assessment (0=B1+; 1=SSB; 2= Exploitable biomass)
-1
-# Sensitivity: What selectivity to use (0=Base (i.e. Giannini), 1=Simple (i.e. Knuckey), 2=Maturity)
-1
+2
+# Sensitivity option: What selectivity to use (0=Base (i.e. Giannini), 1=Simple (i.e. Knuckey), 2=Maturity)
+0
+# Sensitivity option: Use different frequencies for the DEPM survey (0=every year, 1=especify frequency); frequency intervals; Bias
+1 2 0.0
 # Sensitivity option: Time varying selectivities
 0
 # Sensitivity option: Time varying weight at age
