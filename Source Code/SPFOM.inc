@@ -8,14 +8,14 @@ C      Spp                   - Which species parameters file is used
 C 	   EorW					 - Use East or West stock parameters?
       
       COMMON / BiolPar / Nage,Nyear,Weight,Fecu,Matu,Selex,Niprop,NatM,
-     +     R0,Ninit,DeplI,SSB0,Steepness,Alpha,Beta1,Beta2,Rerr,Rtype,
-     +     AlogRPS,BlogRPS,PhilogRPS 
+     +     Rstar,R0,Ninit,DeplI,SSB0,Steepness,Alpha,Beta1,Beta2,Rerr,
+     +     Rtype,AlogRPS,BlogRPS,PhilogRPS 
       INTEGER Nyear,Nage
       REAL*8 Weight(0:MaxAge),Fecu(0:MaxAge),Matu(0:MaxAge)
       REAL*8 Selex(0:MaxAge)
       REAL*8 SelxPNW(0:MaxAge),Niprop(0:MaxAge)
-      REAL*8 NatM,R0,Ninit,DeplI,SSB0,Steepness,Alpha,Beta1,Beta2,Rerr
-      REAL*8 Rtype,AlogRPS,BlogRPS,PhilogRPS	  
+      REAL*8 NatM,Rstar,R0,Ninit,DeplI,SSB0,Steepness,Alpha,Beta1,Beta2
+      REAL*8 Rerr,Rtype,AlogRPS,BlogRPS,PhilogRPS	  
 C      Nyear                 - Number of projection years
 C      Nage                  - Number of age-classes year      
 C      Weight(a)             - Weight-at-age      
@@ -25,6 +25,7 @@ C      Selex(a)              - Selectivity
 C      Niprop(a)             - Initial numbers-at-age (proportions)
 C      NatM                  - Natural mortality
 C      R0                    - Virgin recruitment
+C      Rstar                 - Maximum recruitment
 C  	   Ninit				 - Initial numbers-at-age (total)
 C      DepI 				 - Initial depletion
 C	   SSB0					 - Virgin SSB
@@ -42,7 +43,7 @@ C      N(y,a)                - Numbers-at-age
 C      B1p(s,y)              - Biomass of 1+ animals for year y and simulation s
 C      SSB(s,y)              - SSB for year y and simulation s
 C      F(s,y)                - True fishing mortality
-C      ObsF(s,y)             - Fishing mortality from HG
+C      ObsF(s,y)             - Fishing mortality from RBC
 C      Catch(s,y)            - Catch by year
 C      RecRep(s,y)           - Recruitment by year
 C      AgeN(s,y)             - Mean Age of the population
@@ -58,9 +59,9 @@ C
       INTEGER HCRopt,OFLopt,ISEED4
 C      Bhat                  - Estimated biomass
 C      Emsy                  - Value of Emsy
-C      Cuttoff               - Cutoff parameter of the HG
-C      Frac                  - Fraction parameter of the HG
-C      Maxcatch              - Maxcatch parameter of the HG
+C      Cuttoff               - Cutoff parameter of the RBC
+C      Frac                  - Fraction parameter of the RBC
+C      Maxcatch              - Maxcatch parameter of the RBC
 C      SigmaB                - Variance for biomass estimate
 C      HCRopt                - Which HCR should be used? 
 C      OFLopt                - Which OFL should be used? 

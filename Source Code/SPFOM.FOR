@@ -114,7 +114,7 @@ C      READ(13,*) (SelxPNW(Age),Age=0,Nage)
       READ(13,*)
       READ(13,*) NatM
       READ(13,*)
-      READ(13,*) R0, Steepness
+      READ(13,*) Rstar, Steepness
 C      READ(13,*)
 C      READ(13,*) Alpha, Beta1, Beta2
       READ(13,*)
@@ -236,6 +236,7 @@ C     Compute the SSB and 1+ biomass
       B1p(Isim,0) = Bio1P
 C
 C     Compute Numbers at equilibrium and SSB0
+      R0 = Rstar*(5*Steepness-1)/(4*Steepness)
       Neq(0) = R0
 C      WRITE(*,'(A4,1x,F5.0)') " R0:",R0
       DO 14000 Iage = 1,Nage-1
@@ -436,7 +437,7 @@ C
 C
 C     Global variables
       INTEGER Iyr,Isim
-      REAL*8 HG
+      REAL*8 RBC
       REAL*8 HarvGuide	  
       REAL*8 Eff, ObsEff
       REAL*8 Yrcount
@@ -495,33 +496,33 @@ C     Time varying M
       IF(TVM.EQ.1) NatM = Myear(Iyr-1)
 C
 C     Calculate the harvest guideline
-      HG = 0
+      RBC = 0
       Cpred = 0
       Eff = 0
       ObsEff = 0
 C
-      HG = HarvGuide(Isim,Iyr-1)
-      ObsEff = HG/Bhat
+      RBC = HarvGuide(Isim,Iyr-1)
+      ObsEff = RBC/Bhat
 C     Make sure catch does not go below 0
-      HG = MAX(HG,0.0)
+      RBC = MAX(RBC,0.0)
 C
 C     SENSITIVITIES
-C     3. Multiple fleets - Multiply HG by distribution
+C     3. Multiple fleets - Multiply RBC by distribution
       IF(MultFleet.EQ.1.0) THEN
 C       Don't forget to still set the minimum to the bait catch
-        HG = MAX(HG,0.0)
-C        HG = MAX(HG,2000.0)
+        RBC = MAX(RBC,0.0)
+C        RBC = MAX(RBC,2000.0)
 C       Multiply by DISTRIBUTION (0.87)
-        HG = HG * 0.87
+        RBC = RBC * 0.87
       ENDIF
 C
 C     Make sure the catch does not exceed the biomass
-      IF(HG.GE.0.95*B1p(Isim,Iyr-1)) HG = B1p(Isim,Iyr-1)*0.95
+      IF(RBC.GE.0.95*B1p(Isim,Iyr-1)) RBC = B1p(Isim,Iyr-1)*0.95
 C
 C     Save the F values for the report
-      Eff = HG/B1p(Isim,Iyr-1)
+      Eff = RBC/B1p(Isim,Iyr-1)
 C     In case SSB was used for the assessment
-      IF (WhatAssmt.EQ.1.0) Eff = HG/SSB(Isim,Iyr-1)
+      IF (WhatAssmt.EQ.1.0) Eff = RBC/SSB(Isim,Iyr-1)
       IF(OFLopt.EQ.1) THEN
        Eff = (Emsymax-Emsymin)/(Nsim-1)*(Isim-1) + Emsymin
       ENDIF
@@ -529,7 +530,7 @@ C
 C     Start calculation of mean age of the catch
       AgeC(Isim,Iyr) = 0
 C     Solve for the catch
-      IF (HG.LE.0) THEN
+      IF (RBC.LE.0) THEN
        FF = 0
        DO 10000 Age = 0,Nage
         Z(Age) = NatM
@@ -537,7 +538,7 @@ C     Solve for the catch
       ELSE
        Fmin = 0
        Fmax = 2.996
-C      Use a bisection algorithm to guarantee that the HG is taken
+C      Use a bisection algorithm to guarantee that the RBC is taken
        DO 11000 II = 1,23
         FF = (Fmin+Fmax)/2.0
         CPred = 0
@@ -559,7 +560,7 @@ C
          ACcount1 = ACcount1 + Cnum*Age
          ACcount2 = ACcount2 + Cnum
 11100   CONTINUE 
-        IF (Cpred.GT.HG) THEN
+        IF (Cpred.GT.RBC) THEN
          Fmax = FF
         ELSE
          Fmin = FF
@@ -761,7 +762,7 @@ C
       IMPLICIT NONE
       INCLUDE "SPFOM.INC"
       
-      REAL*8 HGt, Emsy,IEmsy,Frac,Imovave,ABC
+      REAL*8 RBCt, Emsy,IEmsy,Frac,Imovave,ABC
       INTEGER Isim, Iyr
 C
 C     Calculate moving average of SST
@@ -798,20 +799,20 @@ C
 C     Cutoff can be looped over 
       IF (CutOpt.EQ.1) Cutoff = 50000*(Isim-1)
 C
-C     Calculate the HG
+C     Calculate the RBC
 C     ================
-C     By default (HCRopt=0), set the HG = Emsy
-      HGt = OFL
+C     By default (HCRopt=0), set the RBC = Emsy
+      RBCt = OFL
       ObsF(Isim,Iyr) = Emsy
 C     It can also be set with a cutoff and maxcatch and pre-specified Fraction=FracMin
 C
 C     Constant F but constrained by Maxcatch, Cutoff and limits to the HCR
       IF (HCRopt.EQ.1) THEN
        Frac = FracMin
-       HGt = Frac*(Bhat-Cutoff)
-       HGt = MIN(HGt,Maxcatch)
-       HGt = MIN(HGt,ABC)
-       HGt = MAX(HGt,0.0)
+       RBCt = Frac*(Bhat-Cutoff)
+       RBCt = MIN(RBCt,Maxcatch)
+       RBCt = MIN(RBCt,ABC)
+       RBCt = MAX(RBCt,0.0)
        ObsF(Isim,Iyr) = Frac
       ENDIF
 C
@@ -820,14 +821,14 @@ C     Or include a temperature term to determine Fraction
        Frac = Emsy
        Frac = MIN(Frac,FracMax)
        Frac = MAX(Frac,FracMin)
-       HGt = Frac*(Bhat-Cutoff)
-       HGt = MIN(HGt,Maxcatch)
-       HGt = MIN(HGt,ABC)
-       HGt = MAX(HGt,0.0)
+       RBCt = Frac*(Bhat-Cutoff)
+       RBCt = MIN(RBCt,Maxcatch)
+       RBCt = MIN(RBCt,ABC)
+       RBCt = MAX(RBCt,0.0)
        ObsF(Isim,Iyr) = Frac
       ENDIF
 C	  
-      HarvGuide = HGt
+      HarvGuide = RBCt
 C
       RETURN
       END
