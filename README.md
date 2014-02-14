@@ -19,6 +19,6 @@ The current version of the model was compiled using [GFortran] (http://gcc.gnu.o
 
 Other resources provided
 --------------------------
-'Sort.exe' reads the `SUMMARY.OUT` file and returns a new file (`PerfInd.OUT`) including mean, StdDev, and five quantiles (0.05, 0.25, 0.50, 0.75 and 0.95) for six quantities, organized by column: Biomass 1+, SSB, Catch for the whole time series, and for the last five years of the simulation. Source code for this program is also provided.
+`Sort.exe` reads the `SUMMARY.OUT` file and returns a new file (`PerfInd.OUT`) including mean, StdDev, and five quantiles (0.05, 0.25, 0.50, 0.75 and 0.95) for six quantities, organized by column: Biomass 1+, SSB, Catch for the whole time series, and for the last five years of the simulation. Source code for this program is also provided.
 
 `F vs Depletion.R` is R code to produce profiles of harvest rate vs. depletion for all stocks. The code is self-contained, but you will need to specify pathways to where the model is located and where to store results. `F vs Depletion-Parallel.R` is similar, but allows for the use of parallelization to speed up runtimes. 
