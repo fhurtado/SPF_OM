@@ -5,7 +5,7 @@ This repository stores the most up-to-date code for the operating model used for
 
 Using the model
 -----------------
-The model is provided as an executable file (`SPFOM.exe`). To use the model, three input files are required: `SPFspp.SPEC`, `SPFOM.SPEC`, and `[xxx].DAT` (where [xxx] is the name of the species data file). `SPFspp.SPEC` tells the model which species and stock data file to use. 'SPFOM.SPEC' controls the model, harvest control rule and sensitivity scenarios. `[xxx].DAT` files store the parameters relevant to each stock. To run the model, all three input files and the executable need to be in the same folder.
+The model is provided as an executable file (`SPFOM.exe`). To use the model, three input files are required: `SPFspp.SPEC`, `SPFOM.SPEC`, and `[xxx].DAT` (where [xxx] is the name of the species data file). `SPFspp.SPEC` tells the model which species and stock data file to use. `SPFOM.SPEC` controls the model, harvest control rule and sensitivity scenarios. `[xxx].DAT` files store the parameters relevant to each stock. To run the model, all three input files and the executable need to be in the same folder.
 
 The model produces an output file called `SUMMARY.OUT`. Rows are simulation years, columns are the different output quantities, organized by simulation. The first column gives the simulation year. Output quantities are organized in groups of nine columns: Biomass 1+, SSB, Recruitment, Catch, True harvest rate, Observed harvest rate, Environmental variable (not currently used), Mean age of the population, and Mean age of the catch. 
 
