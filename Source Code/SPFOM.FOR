@@ -131,6 +131,8 @@ C      READ(13,*) Alpha, Beta1, Beta2
       READ(13,*) SigmaI,Ierr
       READ(13,*)
       READ(13,*) SigmaB, Berr
+      READ(13,*)
+      READ(13,*) T2Max
       CLOSE(13)
 C
 C     Read management specifications
@@ -148,9 +150,13 @@ C     Read management specifications
       READ(13,*) 
       READ(13,*) Maxcatch
       READ(13,*) 
+      READ(13,*) T1psi, T1gamma, T1Max
+      READ(13,*) 
+      READ(13,*) T3Max
+      READ(13,*) 
       READ(13,*) OFLopt
       READ(13,*) 
-      READ(13,*) HCRopt
+      READ(13,*) Tier
       READ(13,*) 
       READ(13,*) CutOpt
       READ(13,*)
@@ -247,7 +253,6 @@ C      WRITE(*,'(A4,1x,F5.0)') " R0:",R0
       DO 15000 Iage = 0,Nage
        SSB0 = SSB0 + Weight(Iage)*Neq(Iage)*Matu(Iage)
 15000 CONTINUE
-C      WRITE(*,*) SSB0
 C	  
 C     Generate the environmental variables
 C     NO NEED
@@ -438,7 +443,7 @@ C
 C     Global variables
       INTEGER Iyr,Isim
       REAL*8 RBC
-      REAL*8 HarvGuide	  
+      REAL*8 RecBioCatch	  
       REAL*8 Eff, ObsEff
       REAL*8 Yrcount
 C
@@ -501,7 +506,7 @@ C     Calculate the harvest guideline
       Eff = 0
       ObsEff = 0
 C
-      RBC = HarvGuide(Isim,Iyr-1)
+      RBC = RecBioCatch(Isim,Iyr-1)
       ObsEff = RBC/Bhat
 C     Make sure catch does not go below 0
       RBC = MAX(RBC,0.0)
@@ -757,78 +762,99 @@ C
 C
 C ===============================================================================================
 C
-      REAL*8 FUNCTION HarvGuide(Isim,Iyr)
+      REAL*8 FUNCTION RecBioCatch(Isim,Iyr)
 C
       IMPLICIT NONE
       INCLUDE "SPFOM.INC"
       
       REAL*8 RBCt, Emsy,IEmsy,Frac,Imovave,ABC
+      REAL*8 Yrcount,SurvAge
       INTEGER Isim, Iyr
-C
-C     Calculate moving average of SST
-C      Imovave = (I(Iyr)+I(Iyr-1)+I(Iyr-2))/3
-C      IF(Iyr.eq.1) Imovave = I(Iyr)
-C      IF(Iyr.eq.2) Imovave = (I(Iyr)+I(Iyr-1))/2
-C      IF(UseAnn.eq.1) Imovave = I(Iyr)
-C
+
 C     Calculate Emsy
-C     By default (OFLopt=0), set Emsy=Emsymin
+C     By default (Tier=0), set Emsy=Emsymin, i.e. constant harvest rate. 
+C     Note this is also Tier 1 option 2
       Emsy = Emsymin 
 C
-C     If OFLopt=1, do a range of values for Emsy (Between Emsymin and Emsymax)
-      IF(OFLopt.EQ.1) THEN
-       Emsy = (Emsymax-Emsymin)/(Nsim-1)*(Isim-1) + Emsymin
-      ENDIF
-C
 C     Calculate the OFL
-      OFL = Emsy*Bhat
+      OFL = Emsy * Bhat
+C	  
+C     Calculate the base RCB
+      RBCt = Emsy * Bhat
+C	  
+C     If Tier=1 set Emsy to a value depending on the age of the survey
+      IF (Tier.EQ.1) THEN
+        SurvAge = 1.0
+        IF  (VarSurvFreq.EQ.1) THEN
+          Yrcount = REAL(Iyr)
+          SurvAge = MOD((Yrcount),DEPMfrq)
+          IF (SurvAge.EQ.0.0) SurvAge = DEPMfrq
+          IF (Iyr.EQ.0) SurvAge = 0.0
+        ENDIF
+        Emsy = - T1psi * SurvAge + T1gamma
+        Emsy = MIN(Emsy,T1Max)
+        RBCt = Bhat * Emsy
+      ENDIF
+C     If Tier=2, set the RBC equal to the species/stock max
+      IF (Tier.EQ.2) RBCt = T2Max
+	  
+C     If Tier=3, set the RBC equal to Tier 3 max (by default, 500t)
+      IF (Tier.EQ.3) RBCt = T3Max
+
+C     If OFLopt=1, do a range of values for Emsy (Between Emsymin and Emsymax)
+C      IF(OFLopt.EQ.1) THEN
+C       Emsy = (Emsymax-Emsymin)/(Nsim-1)*(Isim-1) + Emsymin
+C      ENDIF
+C
+C
 C
 C     If OFLopt=3, use the relationship between Emsy and SST
-      IF (OFLopt.EQ.2) THEN
-       Emsy = - 18.46452 + 3.25209*Imovave - 0.19723*Imovave**2 + 
-     +        0.0041863*Imovave**3
-       IEmsy = Emsy
-       Emsy = MAX(Emsy,0.0)
-       Emsy = MIN(Emsy,OFLmax)
-       OFL = Emsy*Bhat	  
-      ENDIF	  
+C      IF (OFLopt.EQ.2) THEN
+C       Emsy = - 18.46452 + 3.25209*Imovave - 0.19723*Imovave**2 + 
+C     +        0.0041863*Imovave**3
+C       IEmsy = Emsy
+C       Emsy = MAX(Emsy,0.0)
+C       Emsy = MIN(Emsy,OFLmax)
+C       OFL = Emsy*Bhat	  
+C      ENDIF	  
 C     
 C     Calculate the ABC (p*=0.40)
       ABC = Pstar*OFL
 C	  
 C     Cutoff can be looped over 
-      IF (CutOpt.EQ.1) Cutoff = 50000*(Isim-1)
+C      IF (CutOpt.EQ.1) Cutoff = 50000*(Isim-1)
 C
 C     Calculate the RBC
 C     ================
-C     By default (HCRopt=0), set the RBC = Emsy
-      RBCt = OFL
+C     By default (Tier=0), set the RBC = Emsy
+C      RBCt = OFL
       ObsF(Isim,Iyr) = Emsy
+C
 C     It can also be set with a cutoff and maxcatch and pre-specified Fraction=FracMin
 C
 C     Constant F but constrained by Maxcatch, Cutoff and limits to the HCR
-      IF (HCRopt.EQ.1) THEN
-       Frac = FracMin
-       RBCt = Frac*(Bhat-Cutoff)
-       RBCt = MIN(RBCt,Maxcatch)
-       RBCt = MIN(RBCt,ABC)
-       RBCt = MAX(RBCt,0.0)
-       ObsF(Isim,Iyr) = Frac
-      ENDIF
-C
-C     Or include a temperature term to determine Fraction
-      IF (HCRopt.EQ.2) THEN
-       Frac = Emsy
-       Frac = MIN(Frac,FracMax)
-       Frac = MAX(Frac,FracMin)
-       RBCt = Frac*(Bhat-Cutoff)
-       RBCt = MIN(RBCt,Maxcatch)
-       RBCt = MIN(RBCt,ABC)
-       RBCt = MAX(RBCt,0.0)
-       ObsF(Isim,Iyr) = Frac
-      ENDIF
+C      IF (Tier.EQ.1) THEN
+C       Frac = FracMin
+C       RBCt = Frac*(Bhat-Cutoff)
+C       RBCt = MIN(RBCt,Maxcatch)
+C       RBCt = MIN(RBCt,ABC)
+C       RBCt = MAX(RBCt,0.0)
+C       ObsF(Isim,Iyr) = Frac
+C      ENDIF
+CC
+CC     Or include a temperature term to determine Fraction
+C      IF (Tier.EQ.2) THEN
+C       Frac = Emsy
+C       Frac = MIN(Frac,FracMax)
+C       Frac = MAX(Frac,FracMin)
+C       RBCt = Frac*(Bhat-Cutoff)
+C       RBCt = MIN(RBCt,Maxcatch)
+C       RBCt = MIN(RBCt,ABC)
+C       RBCt = MAX(RBCt,0.0)
+C       ObsF(Isim,Iyr) = Frac
+C      ENDIF
 C	  
-      HarvGuide = RBCt
+      RecBioCatch = RBCt
 C
       RETURN
       END

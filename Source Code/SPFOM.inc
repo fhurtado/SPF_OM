@@ -51,18 +51,29 @@ C      AgeC(s,y)             - Mean age of the catch
 C      
 	  
       COMMON / Assessment / Bhat,Emsymin,Emsymax,Cutoff,FracMin,FracMax,
-     +       Maxcatch,OFL,Pstar,OFLmax,SigmaB,Berr,CutOpt,EpsB,OFLopt,
-     +       HCRopt,ISEED4
+     +       Maxcatch,OFL,Pstar,OFLmax,SigmaB,Berr,CutOpt,EpsB,T1psi,
+     +       T1gamma,T1Max,T2Max,T3Max,Tier,OFLopt,HCRopt,ISEED4
       REAL*8 Bhat,Emsymin,Emsymax,Cutoff,FracMin,FracMax,Maxcatch,OFL
-      REAL*8 OFLmax,Pstar,SigmaB,Berr,CutOpt
-      REAL*8 EpsB(0:MaxYr)
-      INTEGER HCRopt,OFLopt,ISEED4
+      REAL*8 OFLmax,Pstar,SigmaB,Berr,CutOpt,T1psi,T1gamma,T1Max,T2Max
+      REAL*8 T3Max,EpsB(0:MaxYr)
+      INTEGER Tier,HCRopt,OFLopt,ISEED4
 C      Bhat                  - Estimated biomass
-C      Emsy                  - Value of Emsy
+C      Emsymin               - Min value for Emsy
+C      Emsymax               - Max value for Emsy
 C      Cuttoff               - Cutoff parameter of the RBC
-C      Frac                  - Fraction parameter of the RBC
+C      FracMin               - Min fraction parameter of the RBC
+C      FracMax               - Max fraction parameter of the RBC
 C      Maxcatch              - Maxcatch parameter of the RBC
+C      OFL                   - OFL (overfishing limit)
+C      Pstar                 - P star value for ABC calculation
 C      SigmaB                - Variance for biomass estimate
+C      Berr                  - Use recruitment error?
+C      T1psi                 - Psi parameter for Tier 1
+C      T1gamma               - Gamma parameter for Tier 1
+C      T1Max                 - Max harvest rate for Tier 1
+C      T2Max                 - Max catch for Tier 2
+C      T3Max                 - Max catch for Tier 3
+C      Tier                  - What tier to use?
 C      HCRopt                - Which HCR should be used? 
 C      OFLopt                - Which OFL should be used? 
 
@@ -96,7 +107,6 @@ C
      +       HPSa,Fmex,Fcan,WeightOut,SelxOut,UseAnn,DiffSelx,WhatAssmt,
      +       VarSurvFreq,DEPMfrq,SurvBias,SelxSum,WeightSum,SimpleSelex,
      +       SelxMC1,SelxMC2,SelxMCy,SelxPNW,Weight80s,Weight90s,Myear
-C      INTEGER DEPMfreq
       REAL*8 TVselx,TVweight,MultFleet,HyperSt,TVM,HPSa,Fmex,Fcan
       REAL*8 WeightOut,SelxOut,UseAnn,DiffSelx,WhatAssmt,VarSurvFreq
       REAL*8 DEPMfrq,SurvBias
