@@ -184,6 +184,7 @@ C
       INCLUDE "Sort.inc"
       INTEGER Med,Q05,Q25,Q75,Q95
       INTEGER Med5,Q505,Q525,Q575,Q595
+      INTEGER Perc,tPerc,tPerc5
       Real*8 Mean,StdDev
       
       Med = (Nyear+1)*Nsim*0.50
@@ -220,12 +221,18 @@ C
      +              Bio5(Q575),SSB5(Q575),Catch5(Q575)
       WRITE(14,600) "Q95",Biomass(Q95),SSB(Q95),Catches(Q95),
      +              Bio5(Q595),SSB5(Q595),Catch5(Q595)
-	  
-
-	 
-	  
+      WRITE(*,*) "Stuff"	  
+      DO 20000 Perc=1,100
+        tPerc = (Nyear+1)*Nsim*REAL(Perc)/100
+        tPerc5 = 5*Nsim*REAL(Perc)/100
+        WRITE(14,700) Perc,Biomass(tPerc),SSB(tPerc),Catches(tPerc),
+     +                Bio5(tPerc5),SSB5(tPerc5),Catch5(tPerc5)       
+20000 CONTINUE	 
+	   
       RETURN
 600   FORMAT(1x,A6,1x,F14.2,1x,F14.2,1x,F14.2,1x,F14.2,1x,
+     +       F14.2,1x,F14.2,1x)
+700   FORMAT(1x,I6,1x,F14.2,1x,F14.2,1x,F14.2,1x,F14.2,1x,
      +       F14.2,1x,F14.2,1x)
       END
 C

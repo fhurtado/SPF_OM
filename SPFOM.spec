@@ -1,7 +1,7 @@
 # Number of simulation years
-10
+50
 # Number of simulations
-1
+1000
 # Emsy_min Emsy_max
     0.0    0.7
 # FractionMin FractiomMax
@@ -10,8 +10,8 @@
 4e+05
 # Maxcatch
 999999999
-# Tier 1 parameters (Psi, Gamma, and Max HR)
-0.025   0.225   0.175
+# Tier 1 parameters (Psi, Gamma, Max and Min HR)
+0.025   0.225   0.175  0.075
 # Tier 3 Max catch
 500
 # OFL option (0=Only Emsymin; 1=Increasing Emsy; 2=Emsy is temp-dependent)
@@ -25,9 +25,9 @@
 # Seeds
 -39948 -35946 -97996 -99182
 # Sensitivity option: What quantity to use for the assessment (0=B1+; 1=SSB; 2= Exploitable biomass)
-2
+1
 # Sensitivity option: What selectivity to use (0=Base (i.e. Giannini), 1=Simple (i.e. Knuckey), 2=Maturity)
-0
+1
 # Sensitivity option: Use different frequencies for the DEPM survey (0=every year, 1=especify frequency); frequency intervals; Bias
 1 3 0.0
 # Sensitivity option: Time varying selectivities

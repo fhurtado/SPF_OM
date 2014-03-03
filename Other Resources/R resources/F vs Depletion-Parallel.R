@@ -38,8 +38,8 @@ Wheight        <- 4.5
 Wwidth         <- 5.4
 
 # File names and important paths
-Outpath <- "C:/Users/Felipe/Desktop/AUS_OM/FvD_Results_BaseSelex"
-OMpath <- "C:/Users/Felipe/Desktop/AUS_OM/V0.0"
+Outpath <- "C:/Users/Felipe/Desktop/AUS_OM/FvD_Results_SimpleSelex"
+OMpath <- "C:/Users/Felipe/Desktop/AUS_OM/V1.0"
 
 DATfiles <- c("E.Redbait.DAT","W.Redbait.DAT","JackMac.DAT",
               "E.BlueMac.DAT","W.BlueMac.DAT","E.Sardine.DAT","W.Sardine.DAT")
@@ -433,7 +433,7 @@ if(plot.again==T){
   ############################################################
   # Depletions
 
-  DepObj <- c(0.9,0.8,0.75,seq(0.7,0.4,by=-0.1))
+  DepObj <- c(0.9,0.8,0.75,seq(0.7,0.2,by=-0.1))
   EspDepls <- data.frame(Targ_Depl = DepObj)
   for(spp in 1:7){
     EspDepls <- cbind(EspDepls,

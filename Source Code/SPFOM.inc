@@ -52,10 +52,10 @@ C
 	  
       COMMON / Assessment / Bhat,Emsymin,Emsymax,Cutoff,FracMin,FracMax,
      +       Maxcatch,OFL,Pstar,OFLmax,SigmaB,Berr,CutOpt,EpsB,T1psi,
-     +       T1gamma,T1Max,T2Max,T3Max,Tier,OFLopt,HCRopt,ISEED4
+     +       T1gamma,T1Max,T1Min,T2Max,T3Max,Tier,OFLopt,HCRopt,ISEED4
       REAL*8 Bhat,Emsymin,Emsymax,Cutoff,FracMin,FracMax,Maxcatch,OFL
-      REAL*8 OFLmax,Pstar,SigmaB,Berr,CutOpt,T1psi,T1gamma,T1Max,T2Max
-      REAL*8 T3Max,EpsB(0:MaxYr)
+      REAL*8 OFLmax,Pstar,SigmaB,Berr,CutOpt,T1psi,T1gamma,T1Max,T1Min
+      REAL*8 T2Max,T3Max,EpsB(0:MaxYr)
       INTEGER Tier,HCRopt,OFLopt,ISEED4
 C      Bhat                  - Estimated biomass
 C      Emsymin               - Min value for Emsy
